@@ -61,8 +61,6 @@ def generate_customer_data(
         "Total": total,
     }
 
-    print(statement)
-
     return statement
 
 
@@ -115,7 +113,5 @@ def generate_pdf(customer_data: dict) -> str:
 
     # Save the PDF
     pdf.save()
-
-    print("PDF generated successfully!")
 
     return file_name
