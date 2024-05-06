@@ -44,7 +44,7 @@ def test_generate_customer_data():
             for transaction in customer_data["Transactions"]
         ]
     )
-    assert total == customer_data["Total"][0]
+    assert total == customer_data["Total"]
 
 
 def test_generate_pdf():
@@ -65,4 +65,4 @@ def test_generate_pdf():
 
     # assertions
     assert os.path.exists(file_name)
-    # os.remove(f"{customer_id}.pdf")
+    os.remove(file_name)

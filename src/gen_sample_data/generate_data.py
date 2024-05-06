@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import random
 from reportlab.pdfgen import canvas
+import os
 
 
 def load_us_population_data(
@@ -33,6 +34,10 @@ def generate_customer_data(
     num_transactions: int = 3,
 ) -> dict:
 
+    # max num transactions is 27
+    if num_transactions > 27:
+        num_transactions = 27
+
     total = 0
     transactions = []
     for i in range(num_transactions):
@@ -53,7 +58,7 @@ def generate_customer_data(
         "Postal": postal,
         "Date": date,
         "Transactions": transactions,
-        "Total": [total],
+        "Total": total,
     }
 
     print(statement)
@@ -61,11 +66,19 @@ def generate_customer_data(
     return statement
 
 
-def generate_pdf(customer_data: dict)->str:
+def generate_pdf(customer_data: dict) -> str:
     # Generate a PDF file based on the customer data
-    # Create a PDF object
 
-    file_name = f"sample-data/files/{customer_data["Customer ID"]}-{customer_data["Postal"]}-{customer_data["Date"]}.pdf"
+    # Folders and file name
+    folder_path = "sample-data/files/"
+
+    # Check if the folder exists
+    if not os.path.exists(folder_path):
+        # Create the folder (including any missing parent directories)
+        os.makedirs(folder_path)
+
+    file_name = f"{folder_path}{customer_data["Customer ID"]}-{customer_data["Postal"]}-{customer_data["Date"]}.pdf"
+
     pdf = canvas.Canvas(file_name)
 
     # Set font and size
@@ -98,7 +111,7 @@ def generate_pdf(customer_data: dict)->str:
     # Add Total
     y_pos -= 20
     pdf.drawString(100, y_pos, "Total:")
-    pdf.drawString(350, y_pos, f"${customer_data['Total'][0]:.2f}")
+    pdf.drawString(350, y_pos, f"${customer_data['Total']:.2f}")
 
     # Save the PDF
     pdf.save()
