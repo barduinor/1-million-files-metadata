@@ -11,7 +11,8 @@ def load_us_population_data(
         filename: The path to the CSV file.
 
     Returns:
-        A dictionary where keys are column names (from first row) and values are lists of corresponding values.
+        A dictionary where keys are column names (from first row)
+        and values are lists of corresponding values.
     """
     with open(filename, "r") as csv_file:
         reader = csv.reader(csv_file)
