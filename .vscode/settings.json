@@ -6,6 +6,11 @@
     "python.testing.pytestEnabled": true,
     "cSpell.words": [
         "dateutil",
+        "pdfgen",
         "relativedelta"
+    ],
+    "black-formatter.args": [
+        "--line-length",
+        "110"
     ]
 }

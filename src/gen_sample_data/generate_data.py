@@ -89,7 +89,9 @@ def generate_pdf(customer_data: dict) -> str:
         # Create the folder (including any missing parent directories)
         os.makedirs(folder_path)
 
-    file_name = f"{folder_path}{customer_data["Customer ID"]}-{customer_data["Postal"]}-{customer_data["Date"]}.pdf"
+    file_name = (
+        f"{folder_path}{customer_data["Customer ID"]}-{customer_data["Postal"]}-{customer_data["Date"]}.pdf"
+    )
 
     pdf = canvas.Canvas(file_name)
 
@@ -107,15 +109,15 @@ def generate_pdf(customer_data: dict) -> str:
     pdf.drawString(350, 600, "Amount")
 
     # Set the statement date converting to proper date
-    statement_date = customer_data['Date']
+    statement_date = customer_data["Date"]
     # set date to first date of previous month
     statement_date = statement_date - relativedelta(months=1)
 
     # Add Transactions
     y_pos = 580
-    for transaction in customer_data['Transactions']:
+    for transaction in customer_data["Transactions"]:
         pdf.drawString(100, y_pos, statement_date.strftime("%Y-%m-%d"))
-        pdf.drawString(200, y_pos, transaction['Transaction ID'])
+        pdf.drawString(200, y_pos, transaction["Transaction ID"])
         pdf.drawString(350, y_pos, f"${transaction['Amount']:.2f}")
         y_pos -= 20
         statement_date = statement_date + timedelta(days=1)

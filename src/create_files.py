@@ -34,6 +34,8 @@ async def create_files():
                 # upload file to box
                 # add metadata to file
                 # remove file from local folder
+                # handle limits
+                # recover from errors
                 statement_date = statement_date - relativedelta(months=1)
 
 
