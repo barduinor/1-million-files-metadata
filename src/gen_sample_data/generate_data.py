@@ -26,6 +26,10 @@ def load_us_population_data(
         return {h: [row[i] for row in data] for i, h in enumerate(headers)}
 
 
+async def load_us_population_data_async(filename: str = "sample-data/us_pop_500.csv") -> dict:
+    return load_us_population_data(filename)
+
+
 def generate_customer_data(
     customer_id: str,
     state: str,
@@ -64,6 +68,16 @@ def generate_customer_data(
     return statement
 
 
+async def generate_customer_data_async(
+    customer_id: str,
+    state: str,
+    postal: str,
+    date: date,
+    num_transactions: int = 3,
+) -> dict:
+    return generate_customer_data(customer_id, state, postal, date, num_transactions)
+
+
 def generate_pdf(customer_data: dict) -> str:
     # Generate a PDF file based on the customer data
 
@@ -93,7 +107,7 @@ def generate_pdf(customer_data: dict) -> str:
     pdf.drawString(350, 600, "Amount")
 
     # Set the statement date converting to proper date
-    statement_date = date.fromisoformat(customer_data['Date'])
+    statement_date = customer_data['Date']
     # set date to first date of previous month
     statement_date = statement_date - relativedelta(months=1)
 
@@ -115,3 +129,7 @@ def generate_pdf(customer_data: dict) -> str:
     pdf.save()
 
     return file_name
+
+
+async def generate_pdf_async(customer_data: dict) -> str:
+    return generate_pdf(customer_data)

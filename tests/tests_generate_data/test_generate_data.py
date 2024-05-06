@@ -4,6 +4,7 @@ from src.gen_sample_data.generate_data import (
     generate_customer_data,
     generate_pdf,
 )
+from datetime import date
 
 
 def test_load_us_population_data():
@@ -44,7 +45,7 @@ def test_generate_customer_data():
             for transaction in customer_data["Transactions"]
         ]
     )
-    assert total == customer_data["Total"]
+    assert round(total, 2) == customer_data["Total"]
 
 
 def test_generate_pdf():
@@ -52,13 +53,14 @@ def test_generate_pdf():
     customer_id = "AA-001"
     state = "Alabama"
     postal = "AL"
-    date = "2021-01-01"
+    today = date.today()  # Get today's date
+    statement_date = date(today.year, today.month, 1)
 
     customer_data = generate_customer_data(
         customer_id=customer_id,
         state=state,
         postal=postal,
-        date=date,
+        date=statement_date,
         num_transactions=27,
     )
     file_name = generate_pdf(customer_data)
