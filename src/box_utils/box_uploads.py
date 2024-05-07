@@ -1,5 +1,4 @@
 from box_sdk_gen import BoxClient, UploadFileAttributes, File, UploadFileAttributesParentField
-from box_client_ccg import ConfigCCG
 
 
 def upload_file(client: BoxClient, folder_id: str, file_path: str) -> File:
