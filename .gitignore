@@ -121,6 +121,9 @@ celerybeat.pid
 
 # Environments
 .env/
+.env
+.ccg.env
+*.tk.db
 .venv/
 env/
 venv/
