@@ -1,6 +1,6 @@
 import os
 
-from src.box_utils.box_uploads import upload_file
+from src.box_utils.box_uploads import box_upload_file
 from src.box_utils.box_client_ccg import ConfigCCG, get_ccg_user_client
 
 
@@ -20,7 +20,7 @@ def test_upload_file():
         file.write(os.urandom(10))
 
     # upload the test file to Box
-    box_file = upload_file(client, folder_id, test_file).entries[0]
+    box_file = box_upload_file(client, folder_id, test_file).entries[0]
 
     # check if the file was uploaded successfully
     assert box_file.name == "test_file.txt"
