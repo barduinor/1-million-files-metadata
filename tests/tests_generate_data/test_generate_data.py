@@ -48,6 +48,7 @@ def test_generate_pdf():
     postal = "AL"
     today = date.today()  # Get today's date
     statement_date = date(today.year, today.month, 1)
+    PDF_PATH = "sample-data/files"
 
     customer_data = generate_customer_data(
         customer_id=customer_id,
@@ -56,7 +57,7 @@ def test_generate_pdf():
         date=statement_date,
         num_transactions=27,
     )
-    file_name = generate_pdf(customer_data)
+    file_name = generate_pdf(PDF_PATH, customer_data)
 
     # assertions
     assert os.path.exists(file_name)

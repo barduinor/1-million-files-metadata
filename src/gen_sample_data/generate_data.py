@@ -57,12 +57,12 @@ def generate_customer_data(
         transactions.append(transaction)
 
     statement = {
-        "Customer ID": customer_id,
+        "CustomerID": customer_id,
         "State": state,
         "Postal": postal,
         "Date": date,
         "Transactions": transactions,
-        "Total": total,
+        "Total": round(total,2),
     }
 
     return statement
@@ -78,11 +78,8 @@ async def generate_customer_data_async(
     return generate_customer_data(customer_id, state, postal, date, num_transactions)
 
 
-def generate_pdf(customer_data: dict) -> str:
+def generate_pdf(folder_path:str, customer_data: dict) -> str:
     # Generate a PDF file based on the customer data
-
-    # Folders and file name
-    folder_path = "sample-data/files/"
 
     # Check if the folder exists
     if not os.path.exists(folder_path):
@@ -90,7 +87,7 @@ def generate_pdf(customer_data: dict) -> str:
         os.makedirs(folder_path)
 
     file_name = (
-        f"{folder_path}{customer_data["Customer ID"]}-{customer_data["Postal"]}-{customer_data["Date"]}.pdf"
+        f"{folder_path}{customer_data["CustomerID"]}-{customer_data["Date"]}.pdf"
     )
 
     pdf = canvas.Canvas(file_name)
@@ -99,7 +96,7 @@ def generate_pdf(customer_data: dict) -> str:
     pdf.setFont("Helvetica", 12)
 
     # Add Customer Information
-    pdf.drawString(100, 700, f"Customer ID: {customer_data['Customer ID']}")
+    pdf.drawString(100, 700, f"CustomerID: {customer_data['CustomerID']}")
     pdf.drawString(100, 680, f"State: {customer_data['State']} ({customer_data['Postal']})")
     pdf.drawString(100, 640, f"Statement Date: {customer_data['Date']}")
 
@@ -133,8 +130,8 @@ def generate_pdf(customer_data: dict) -> str:
     return file_name
 
 
-async def generate_pdf_async(customer_data: dict) -> str:
-    return generate_pdf(customer_data)
+async def generate_pdf_async(folder_path:str,customer_data: dict) -> str:
+    return generate_pdf(folder_path,customer_data)
 
 async def remove_pdf_async(statement: str):
     os.remove(statement)
