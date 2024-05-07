@@ -133,6 +133,7 @@ venv.bak/
 
 # sample data
 sample-data/files/
+sample-data/logs/
 
 # Spyder project settings
 .spyderproject

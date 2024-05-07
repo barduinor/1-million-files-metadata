@@ -15,8 +15,8 @@ from gen_sample_data.generate_data import (
 from box_utils.box_client_ccg import ConfigCCG, get_ccg_user_client
 from box_utils.box_uploads import box_upload_file_async, box_upload_file
 
-# DATA_DEFINITION = "sample-data/us_pop_500.csv"
-DATA_DEFINITION = "sample-data/20M Customers.csv"
+DATA_DEFINITION = "sample-data/us_pop_500.csv"
+# DATA_DEFINITION = "sample-data/20M Customers.csv"
 PDF_PATH = "sample-data/files/"
 LOG_PATH = f"sample-data/logs/"
 LOG_FILE = f"{LOG_PATH}log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
