@@ -25,9 +25,7 @@ def test_generate_customer_data():
     postal = "AL"
     date = "2021-01-01"
 
-    customer_data = generate_customer_data(
-        customer_id=customer_id, state=state, postal=postal, date=date
-    )
+    customer_data = generate_customer_data(customer_id=customer_id, state=state, postal=postal, date=date)
 
     # assertions
     assert customer_data["Customer ID"] == customer_id
@@ -39,13 +37,8 @@ def test_generate_customer_data():
     assert len(customer_data["Transactions"]) > 1
 
     # assert the sum of each transaction matches the total on the document
-    total = sum(
-        [
-            transaction["Amount"]
-            for transaction in customer_data["Transactions"]
-        ]
-    )
-    assert round(total, 2) == customer_data["Total"]
+    total = sum([transaction["Amount"] for transaction in customer_data["Transactions"]])
+    assert abs(round(total, 2) - customer_data["Total"]) < 0.0001
 
 
 def test_generate_pdf():
