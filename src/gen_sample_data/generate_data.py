@@ -135,3 +135,6 @@ def generate_pdf(customer_data: dict) -> str:
 
 async def generate_pdf_async(customer_data: dict) -> str:
     return generate_pdf(customer_data)
+
+async def remove_pdf_async(statement: str):
+    os.remove(statement)

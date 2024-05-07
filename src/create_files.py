@@ -3,8 +3,10 @@ from gen_sample_data.generate_data import (
     generate_customer_data_async,
     load_us_population_data_async,
     generate_pdf_async,
+    remove_pdf_async,
 )
 import random
+import os
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
@@ -27,15 +29,20 @@ async def create_files():
                     state=us_pop["State"][i],
                     postal=us_pop["Postal"][i],
                     date=statement_date,
-                    num_transactions=random.randint(1, 27),
+                    num_transactions=random.randint(5, 27),
                 )
                 statement = await generate_pdf_async(customer_data)
                 print(statement)
                 # upload file to box
                 # add metadata to file
-                # remove file from local folder
+
                 # handle limits
                 # recover from errors
+
+                # remove file from local folder
+                await remove_pdf_async(statement)
+
+                # Previous month
                 statement_date = statement_date - relativedelta(months=1)
 
 
