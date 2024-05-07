@@ -27,7 +27,11 @@ class ConfigCCG:
         self.enterprise_id = os.getenv("ENTERPRISE_ID")
         self.ccg_user_id = os.getenv("CCG_USER_ID")
 
+        # Cache file
         self.cache_file = os.getenv("CACHE_FILE", ".ccg.tk")
+
+        # App settings
+        self.folder_id = os.getenv("FOLDER_ID")
 
 
 def __repr__(self) -> str:
@@ -60,7 +64,6 @@ def get_ccg_user_client(config: ConfigCCG, user_id: str) -> BoxClient:
         token_storage=FileWithInMemoryCacheTokenStorage(".user" + config.cache_file),
     )
     auth = BoxCCGAuth(ccg)
-    # auth.as_user(user_id)
 
     client = BoxClient(auth)
 
