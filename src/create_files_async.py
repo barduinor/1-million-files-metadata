@@ -7,7 +7,7 @@ from dateutil.relativedelta import relativedelta
 
 from gen_sample_data.generate_data import (
     generate_customer_data_async,
-    load_us_population_data_async,
+    load_us_population_data,
     generate_pdf_async,
 
 )
@@ -47,8 +47,8 @@ async def create_file(customer_id:str,state:str,postal:str,date:date,num_transac
 
 
 
-async def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
-    us_pop = await load_us_population_data_async(DATA_DEFINITION)
+async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
+
     # config = ConfigCCG()
     # client = get_ccg_user_client(config, config.ccg_user_id)
 
@@ -73,9 +73,9 @@ async def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, cre
         date_offset = 0
 
     batch_start = time.perf_counter()
-    for state_index in range(state_offset,len(us_pop["State"])):
+    for state_index in range(state_offset,len(workload["State"])):
         state_start = time.perf_counter()  
-        for customer_index in range(customer_offset,int(us_pop["Customers"][state_index])):
+        for customer_index in range(customer_offset,int(workload["Customers"][state_index])):
 
             today = date.today()  # Get today's date
             statement_date = date(today.year, today.month, 1)
@@ -84,9 +84,9 @@ async def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, cre
             # customer_start = time.perf_counter()
             for date_index in range(date_offset,50):  # Months
                 await create_file(
-                    f"{us_pop['Postal'][state_index]}-{customer_index+1:07}", 
-                    us_pop["State"][state_index], 
-                    us_pop["Postal"][state_index], 
+                    f"{workload['Postal'][state_index]}-{customer_index+1:07}", 
+                    workload["State"][state_index], 
+                    workload["Postal"][state_index], 
                     statement_date, 
                     random.randint(5, 27)
                 )
@@ -95,7 +95,7 @@ async def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, cre
                 statement_date = statement_date - relativedelta(months=1)
             date_offset = 0
         print(
-                f"State {us_pop["State"][state_index]} created in {time.perf_counter() - state_start:0.3f} seconds"
+                f"State {workload["State"][state_index]} created in {time.perf_counter() - state_start:0.3f} seconds"
             )
         customer_offset = 0
     
@@ -103,7 +103,8 @@ async def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, cre
 
 
 async def main():
-    await create_files()
+    workload = load_us_population_data(DATA_DEFINITION)
+    await create_files(workload)
 
 
 if __name__ == "__main__":

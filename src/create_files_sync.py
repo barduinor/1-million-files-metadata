@@ -45,8 +45,8 @@ def create_file(customer_id:str,state:str,postal:str,date:date,num_transactions:
 
 
 
-def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
-    us_pop = load_us_population_data(DATA_DEFINITION)
+def create_files(workload:dict,worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
+    workload = load_us_population_data(DATA_DEFINITION)
     # config = ConfigCCG()
     # client = get_ccg_user_client(config, config.ccg_user_id)
 
@@ -71,9 +71,9 @@ def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_lo
         date_offset = 0
 
     batch_start = time.perf_counter()
-    for state_index in range(state_offset,len(us_pop["State"])):
+    for state_index in range(state_offset,len(workload["State"])):
         state_start = time.perf_counter()  
-        for customer_index in range(customer_offset,int(us_pop["Customers"][state_index])):
+        for customer_index in range(customer_offset,int(workload["Customers"][state_index])):
 
             today = date.today()  # Get today's date
             statement_date = date(today.year, today.month, 1)
@@ -82,9 +82,9 @@ def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_lo
             # customer_start = time.perf_counter()
             for date_index in range(date_offset,50):  # Months
                 create_file(
-                    f"{us_pop['Postal'][state_index]}-{customer_index+1:07}", 
-                    us_pop["State"][state_index], 
-                    us_pop["Postal"][state_index], 
+                    f"{workload['Postal'][state_index]}-{customer_index+1:07}", 
+                    workload["State"][state_index], 
+                    workload["Postal"][state_index], 
                     statement_date, 
                     random.randint(5, 27)
                 )
@@ -93,7 +93,7 @@ def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_lo
                 statement_date = statement_date - relativedelta(months=1)
             date_offset = 0
         print(
-                f"State {us_pop["State"][state_index]} created in {time.perf_counter() - state_start:0.3f} seconds"
+                f"State {workload["State"][state_index]} created in {time.perf_counter() - state_start:0.3f} seconds"
             )
         customer_offset = 0
     
@@ -101,7 +101,8 @@ def create_files(worker_name:str="worker-0",recover_path:str=LOG_PATH, create_lo
 
 
 def main():
-    create_files()
+    workload = load_us_population_data(DATA_DEFINITION)
+    create_files(workload)
 
 
 if __name__ == "__main__":
