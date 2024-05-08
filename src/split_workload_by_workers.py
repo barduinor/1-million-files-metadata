@@ -1,6 +1,11 @@
 import os
 
-from gen_sample_data.generate_data import Workload, load_us_population_data, write_worker_files
+from gen_sample_data.generate_data import (
+    Workload,
+    load_us_population_data,
+    write_worker_files,
+    write_execution_script,
+)
 
 WORKERS = 8
 
@@ -96,6 +101,7 @@ def main():
 
     workload = load_us_population_data(DATA_DEFINITION)
     split_workload_by_workers(workload)
+    write_execution_script(WORKERS, "execution_script.sh")
 
 
 if __name__ == "__main__":

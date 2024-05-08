@@ -25,6 +25,11 @@ def write_worker_files(workers_load: list[list[Workload]], folder_path: str) -> 
             for workload in worker:
                 writer.writerow([workload.postal, workload.state, workload.population, workload.population_percent, workload.customers_start, workload.customers_end])
 
+def write_execution_script(workers: int, script_path: str) -> None:
+    with open(script_path, "w") as file:
+        for i in range(workers):
+            file.write(f"python create_files_sync.py worker_{i}.csv\n")
+
 def load_us_population_data(
     filename: str,
 ) -> list[Workload]:

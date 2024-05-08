@@ -120,9 +120,12 @@ def create_files(
 
 def main():
     
-    DATA_DEFINITION = "sample-data/500 Customers.csv"
-    # DATA_DEFINITION = "sample-data/2K Customers.csv"
-    # DATA_DEFINITION = "sample-data/20M Customers.csv"
+    if len(sys.argv) > 1:
+        DATA_DEFINITION = sys.argv[1]
+    else:
+        DATA_DEFINITION = "sample-data/500 Customers.csv"
+        # DATA_DEFINITION = "sample-data/2K Customers.csv"
+        # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
     create_files(workload)
