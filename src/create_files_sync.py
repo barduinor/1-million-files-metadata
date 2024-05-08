@@ -21,9 +21,6 @@ PDF_PATH = "sample-data/files/"
 LOG_PATH = f"sample-data/logs/"
 LOG_FILE = f"{LOG_PATH}log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
-
-
-
 def create_file(customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
     file_time_start = time.perf_counter()
 
