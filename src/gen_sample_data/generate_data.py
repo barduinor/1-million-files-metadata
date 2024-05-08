@@ -7,7 +7,7 @@ import os
 
 
 def load_us_population_data(
-    filename: str = "sample-data/us_pop_500.csv",
+    filename: str,
 ) -> dict:
     """
     Loads a CSV file into a dictionary (manual approach).
@@ -26,7 +26,7 @@ def load_us_population_data(
         return {h: [row[i] for row in data] for i, h in enumerate(headers)}
 
 
-async def load_us_population_data_async(filename: str = "sample-data/us_pop_500.csv") -> dict:
+async def load_us_population_data_async(filename: str ) -> dict:
     return load_us_population_data(filename)
 
 
