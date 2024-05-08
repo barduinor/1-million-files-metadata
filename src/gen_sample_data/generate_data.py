@@ -75,14 +75,14 @@ async def generate_customer_data_async(
     date: date,
     num_transactions: int = 3,
 ) -> dict:
-    return generate_customer_data(customer_id, state, postal, date, num_transactions)
+    return generate_customer_data( customer_id, state, postal, date, num_transactions)
 
 
 def generate_pdf(folder_path:str, customer_data: dict) -> str:
     # Generate a PDF file based on the customer data
 
     file_name = (
-        f"{folder_path}{customer_data["CustomerID"]}-{customer_data["Date"]}-{len(customer_data["Transactions"])}-{int(customer_data['Total']*100)}.pdf"
+        f"{folder_path}/{customer_data["CustomerID"]}-{customer_data["Date"]}-{len(customer_data["Transactions"])}-{int(customer_data['Total']*100)}.pdf"
     )
 
     pdf = canvas.Canvas(file_name)

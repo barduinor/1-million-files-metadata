@@ -24,7 +24,7 @@ LOG_FILE = f"{LOG_PATH}log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
 
 
-async def create_file(customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
+async def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
     file_time_start = time.perf_counter()
 
     customer_data = await generate_customer_data_async(
@@ -34,7 +34,7 @@ async def create_file(customer_id:str,state:str,postal:str,date:date,num_transac
         date=date,
         num_transactions=num_transactions,
     )
-    statement = await generate_pdf_async(PDF_PATH,customer_data)
+    statement = await generate_pdf_async(f"{PDF_PATH}{worker_name}",customer_data)
 
     if create_log:
         await append_log_aio(
@@ -56,8 +56,8 @@ async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str
     if not os.path.exists(LOG_PATH):
         os.makedirs(LOG_PATH)
 
-    if not os.path.exists(PDF_PATH):
-        os.makedirs(PDF_PATH)
+    if not os.path.exists(f"{PDF_PATH}{worker_name}"):
+        os.makedirs(f"{PDF_PATH}{worker_name}")
 
     recover_log_file = f"{LOG_PATH}{worker_name}-recover.txt"
     if os.path.exists(recover_log_file):
@@ -84,6 +84,7 @@ async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str
             # customer_start = time.perf_counter()
             for date_index in range(date_offset,50):  # Months
                 await create_file(
+                    worker_name,
                     f"{workload['Postal'][state_index]}-{customer_index+1:07}", 
                     workload["State"][state_index], 
                     workload["Postal"][state_index], 

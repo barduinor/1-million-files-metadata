@@ -22,7 +22,7 @@ PDF_PATH = "sample-data/files/"
 LOG_PATH = f"sample-data/logs/"
 LOG_FILE = f"{LOG_PATH}log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
 
-def create_file(customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
+def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
     file_time_start = time.perf_counter()
 
     customer_data = generate_customer_data(
@@ -32,7 +32,7 @@ def create_file(customer_id:str,state:str,postal:str,date:date,num_transactions:
         date=date,
         num_transactions=num_transactions,
     )
-    statement = generate_pdf(PDF_PATH,customer_data)
+    statement = generate_pdf(f"{PDF_PATH}{worker_name}",customer_data)
 
     if create_log:
         append_log(
@@ -51,13 +51,13 @@ def create_files(workload:dict,worker_name:str="worker-0",recover_path:str=LOG_P
     # client = get_ccg_user_client(config, config.ccg_user_id)
 
     # make sure paths exist
-    if not os.path.exists(LOG_PATH):
-        os.makedirs(LOG_PATH)
+    if not os.path.exists(recover_path):
+        os.makedirs(recover_path)
 
-    if not os.path.exists(PDF_PATH):
-        os.makedirs(PDF_PATH)
+    if not os.path.exists(f"{PDF_PATH}{worker_name}"):
+        os.makedirs(f"{PDF_PATH}{worker_name}")
 
-    recover_log_file = f"{LOG_PATH}{worker_name}-recover.txt"
+    recover_log_file = f"{recover_path}{worker_name}-recover.txt"
     if os.path.exists(recover_log_file):
         with open(recover_log_file, mode="r") as f:
             last_process = f.readline()
@@ -82,6 +82,7 @@ def create_files(workload:dict,worker_name:str="worker-0",recover_path:str=LOG_P
             # customer_start = time.perf_counter()
             for date_index in range(date_offset,50):  # Months
                 create_file(
+                    worker_name,
                     f"{workload['Postal'][state_index]}-{customer_index+1:07}", 
                     workload["State"][state_index], 
                     workload["Postal"][state_index], 
