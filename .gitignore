@@ -130,6 +130,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+tests/test_files/
 
 # sample data
 sample-data/files/
