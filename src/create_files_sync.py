@@ -16,14 +16,18 @@ from gen_sample_data.generate_files import delete_file,log_last_process,append_l
 from box_utils.box_client_ccg import ConfigCCG, get_ccg_user_client
 from box_utils.box_uploads import box_upload_file_async, box_upload_file
 
-# DATA_DEFINITION = "sample-data/2K Customers.csv"
-DATA_DEFINITION = "sample-data/500 Customers.csv"
-# DATA_DEFINITION = "sample-data/20M Customers.csv"
-PDF_PATH = "sample-data/files/"
-LOG_PATH = f"sample-data/logs/"
-LOG_FILE = f"{LOG_PATH}log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+def create_file(
+    worker_name:str,
+    pdf_path:str,
+    log_path:str,
+    customer_id:str,
+    state:str,
+    postal:str,
+    date:date,
+    num_transactions:int,
+    create_metadata:bool=False
+) -> float:
 
-def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:date,num_transactions:int,create_log:bool=False) -> float:
     file_time_start = time.perf_counter()
 
     customer_data = generate_customer_data(
@@ -33,11 +37,12 @@ def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:date,n
         date=date,
         num_transactions=num_transactions,
     )
-    statement = generate_pdf(f"{PDF_PATH}{worker_name}",customer_data)
+    statement = generate_pdf(f"{pdf_path}{worker_name}",customer_data)
 
-    if create_log:
+    if create_metadata:
+        log_file_name = f"{log_path}{worker_name}_log.csv"
         append_log(
-            LOG_FILE, 
+            log_file_name, 
             f'"{statement}","{customer_data['CustomerID']}","{customer_data['State']}","{customer_data['Postal']}",{customer_data['Date']},{num_transactions},{customer_data['Total']}')
     
     file_time_elapsed = time.perf_counter() - file_time_start
@@ -46,19 +51,23 @@ def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:date,n
 
 
 
-def create_files(workload:list[Workload],worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
-    workload = load_us_population_data(DATA_DEFINITION)
-    # config = ConfigCCG()
-    # client = get_ccg_user_client(config, config.ccg_user_id)
+def create_files(
+    workload:list[Workload],
+    worker_name:str="worker-0",
+    pdf_path:str="sample-data/files/",
+    log_path:str="sample-data/logs/", 
+    auto_remove_files:bool=False,
+    create_metadata:bool=False
+    ):
 
     # make sure paths exist
-    if not os.path.exists(recover_path):
-        os.makedirs(recover_path)
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
 
-    if not os.path.exists(f"{PDF_PATH}{worker_name}"):
-        os.makedirs(f"{PDF_PATH}{worker_name}")
+    if not os.path.exists(f"{pdf_path}{worker_name}"):
+        os.makedirs(f"{pdf_path}{worker_name}")
 
-    recover_log_file = f"{recover_path}{worker_name}-recover.txt"
+    recover_log_file = f"{log_path}{worker_name}-recover.txt"
     if os.path.exists(recover_log_file):
         with open(recover_log_file, mode="r") as f:
             last_process = f.readline()
@@ -84,11 +93,14 @@ def create_files(workload:list[Workload],worker_name:str="worker-0",recover_path
             for date_index in range(date_offset,50):  # Months
                 create_file(
                     worker_name,
+                    pdf_path,
+                    log_path,
                     f"{workload[state_index].postal}-{customer_index+1:07}", 
                     workload[state_index].state, 
                     workload[state_index].postal, 
                     statement_date, 
-                    random.randint(5, 27)
+                    random.randint(5, 27),
+                    create_metadata,
                 )
                 log_last_process(recover_log_file, f"{state_index},{customer_index},{date_index}")
 
@@ -103,6 +115,10 @@ def create_files(workload:list[Workload],worker_name:str="worker-0",recover_path
 
 
 def main():
+    # DATA_DEFINITION = "sample-data/2K Customers.csv"
+    DATA_DEFINITION = "sample-data/500 Customers.csv"
+    # DATA_DEFINITION = "sample-data/20M Customers.csv"
+
     workload = load_us_population_data(DATA_DEFINITION)
     create_files(workload)
 
