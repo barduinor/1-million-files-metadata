@@ -81,11 +81,6 @@ async def generate_customer_data_async(
 def generate_pdf(folder_path:str, customer_data: dict) -> str:
     # Generate a PDF file based on the customer data
 
-    # Check if the folder exists
-    if not os.path.exists(folder_path):
-        # Create the folder (including any missing parent directories)
-        os.makedirs(folder_path)
-
     file_name = (
         f"{folder_path}{customer_data["CustomerID"]}-{customer_data["Date"]}.pdf"
     )

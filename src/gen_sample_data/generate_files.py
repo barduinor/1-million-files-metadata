@@ -6,10 +6,6 @@ import aiofiles.os
 
 def generate_file(path: str, file_name, size: int):
 
-    # create path if does not exist
-    if not os.path.exists(path):
-        os.makedirs(path)
-
     # create a test file with random bytes
     test_file = os.path.join(path, file_name)
     with open(test_file, "wb") as file:
@@ -19,9 +15,6 @@ def generate_file(path: str, file_name, size: int):
 
 
 async def generate_file_aio(path: str, file_name, size: int):
-    # create path if does not exist
-    if not await aiofiles.os.path.exists(path):
-        aiofiles.os.makedirs(path)
 
     # create a test file with random bytes
     test_file = os.path.join(path, file_name)
