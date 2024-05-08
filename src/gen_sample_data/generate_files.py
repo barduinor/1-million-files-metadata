@@ -45,3 +45,31 @@ async def delete_file_async(file):
 
 async def delete_file_async_aio(file):
     await aiofiles.os.remove(file)
+
+
+def log_last_process(log_file_path, data):
+    with open(log_file_path, mode="w") as f:
+        f.write(data)
+
+
+async def log_last_process_async(log_file_path, data):
+    await log_last_process(log_file_path, data)
+
+
+async def log_last_process_aio(log_file_path, data):
+    with await aiofiles.open(log_file_path, mode="w") as f:
+        await f.write(data)
+
+
+def append_log(log_file, line):
+    with open(log_file, mode="a") as f:
+        f.write(line + "\n")
+
+
+async def append_log_async(log_file, line):
+    await append_log(log_file, line)
+
+
+async def append_log_aio(log_file, line):
+    async with aiofiles.open(log_file, mode="a") as f:
+        await f.write(line + "\n")
