@@ -1,9 +1,12 @@
 import os
 from src.gen_sample_data.generate_data import (
+    Workload,
     load_us_population_data,
     generate_customer_data,
     generate_pdf,
 )
+
+# from src.create_files_sync import create_files
 from datetime import date
 
 
@@ -17,8 +20,37 @@ def test_load_us_population_data():
     assert us_population_data[0].State == "Alaska"
 
 
-# def test_process_chunck():
-#     create_files(workload,worker_name="worker-0",recover_path=LOG_PATH, create_log=False)
+# def test_process_chunk():
+
+#     workload = []
+#     workload.append(
+#         Workload(
+#             postal="AL",
+#             state="Alabama",
+#             population=1,
+#             population_percent=0.1,
+#             customers_start=10,
+#             customers_end=19,
+#         )
+#     )
+#     workload.append(
+#         Workload(
+#             postal="AK",
+#             state="Alaska",
+#             population=1,
+#             population_percent=0.1,
+#             customers_start=20,
+#             customers_end=29,
+#         )
+#     )
+
+#     path_pdf = "tests/test_files/pdf"
+#     path_log = "tests/test_files/log"
+#     create_files(workload, pdf_path=path_pdf, log_path=path_log, number_of_statements=1)
+
+#     assert False
+
+
 def test_generate_customer_data():
     # Arrange
     customer_id = "AA-001"

@@ -15,10 +15,6 @@ from gen_sample_data.generate_files import delete_file_async,log_last_process_ai
 from box_utils.box_client_ccg import ConfigCCG, get_ccg_user_client
 from box_utils.box_uploads import box_upload_file_async, box_upload_file
 
-
-
-
-
 async def create_file(
     worker_name:str,
     pdf_path:str,
@@ -59,6 +55,7 @@ async def create_files(
     worker_name:str="worker-0",
     pdf_path:str="sample-data/files/",
     log_path:str="sample-data/logs/", 
+    number_of_statements:int=50,
     auto_remove_files:bool=False,
     create_metadata:bool=False
     ):
@@ -85,15 +82,17 @@ async def create_files(
 
     batch_start = time.perf_counter()
     for state_index in range(state_offset,len(workload)):
+        
         state_start = time.perf_counter()  
-        for customer_index in range(customer_offset,workload[state_index].customers_end):
+        for customer_index in range(workload[state_index].customers_start+customer_offset,workload[state_index].customers_end):
 
             today = date.today()  # Get today's date
             statement_date = date(today.year, today.month, 1)
             if date_offset > 0:
                 statement_date = statement_date - relativedelta(months=date_offset)
+        
             # customer_start = time.perf_counter()
-            for date_index in range(date_offset,50):  # Months
+            for date_index in range(date_offset,number_of_statements):  # Months
                 await create_file(
                     worker_name,
                     pdf_path,
@@ -118,8 +117,9 @@ async def create_files(
 
 
 async def main():
-    # DATA_DEFINITION = "sample-data/2K Customers.csv"
+
     DATA_DEFINITION = "sample-data/500 Customers.csv"
+    # DATA_DEFINITION = "sample-data/2K Customers.csv"
     # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
