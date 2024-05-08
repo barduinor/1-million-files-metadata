@@ -16,6 +16,14 @@ class Workload:
     customers_start:int
     customers_end:int
 
+def write_worker_files(workers_load: list[list[Workload]], folder_path: str) -> None:
+    for i, worker in enumerate(workers_load):
+        file_name = f"{folder_path}/worker_{i}.csv"
+        with open(file_name, "w") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Postal", "State", "Population", "Population Percent", "Customers Start", "Customers End"])
+            for workload in worker:
+                writer.writerow([workload.postal, workload.state, workload.population, workload.population_percent, workload.customers_start, workload.customers_end])
 
 def load_us_population_data(
     filename: str,

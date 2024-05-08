@@ -5,6 +5,7 @@ import os
 import time
 from datetime import date,datetime
 from dateutil.relativedelta import relativedelta
+import sys
 
 from gen_sample_data.generate_data import (
     Workload,
