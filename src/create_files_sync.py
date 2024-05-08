@@ -124,6 +124,7 @@ def main():
     # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
+    create_files(workload)
 
 
 if __name__ == "__main__":
