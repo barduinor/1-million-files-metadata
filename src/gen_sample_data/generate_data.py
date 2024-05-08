@@ -133,5 +133,4 @@ def generate_pdf(folder_path:str, customer_data: dict) -> str:
 async def generate_pdf_async(folder_path:str,customer_data: dict) -> str:
     return generate_pdf(folder_path,customer_data)
 
-async def remove_pdf_async(statement: str):
-    os.remove(statement)
+

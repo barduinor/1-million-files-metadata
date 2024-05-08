@@ -28,7 +28,7 @@ def test_generate_customer_data():
     customer_data = generate_customer_data(customer_id=customer_id, state=state, postal=postal, date=date)
 
     # assertions
-    assert customer_data["Customer ID"] == customer_id
+    assert customer_data["CustomerID"] == customer_id
     assert customer_data["State"] == state
     assert customer_data["Postal"] == postal
     assert customer_data["Date"] == date

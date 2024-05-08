@@ -1,4 +1,4 @@
-Postal,State,P_Pop,% Pop,Customers,Avg_Income,P_Avg_Income
+Postal,State,Pop,P_Pop,Customers,Avg_Income,P_Avg_Income
 AK,Alaska,733391,0.00221,44254,71616,1.0712
 AL,Alabama,5024279,0.01516,303170,53175,0.7954
 AR,Arkansas,3011524,0.00909,181719,54347,0.8129

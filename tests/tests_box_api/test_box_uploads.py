@@ -15,15 +15,15 @@ def test_upload_file():
         os.makedirs(test_data_folder)
 
     # create a test file with 10 random bytes
-    test_file = os.path.join(test_data_folder, "test_file.txt")
+    test_file = os.path.join(test_data_folder, "sample_file.txt")
     with open(test_file, "wb") as file:
         file.write(os.urandom(10))
 
     # upload the test file to Box
-    box_file = box_upload_file(client, folder_id, test_file).entries[0]
+    box_file = box_upload_file(client, folder_id, test_file)
 
     # check if the file was uploaded successfully
-    assert box_file.name == "test_file.txt"
+    assert box_file.name == "sample_file.txt"
     assert box_file.size == 10
     assert box_file.parent.id == folder_id
 
