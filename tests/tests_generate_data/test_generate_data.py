@@ -9,15 +9,16 @@ from datetime import date
 
 def test_load_us_population_data():
     # Arrange
-    us_population_data = load_us_population_data()
-    # got 7 columns
-    assert len(us_population_data) == 7
+    us_population_data = load_us_population_data("tests/test_data/500 Customers.csv")
     # got 51 states
-    assert len(us_population_data["State"]) == 51
-    # first state is alabama
-    assert us_population_data["State"][0] == "Alabama"
+    assert len(us_population_data) == 51
+
+    # first state is Alaska
+    assert us_population_data[0].State == "Alaska"
 
 
+# def test_process_chunck():
+#     create_files(workload,worker_name="worker-0",recover_path=LOG_PATH, create_log=False)
 def test_generate_customer_data():
     # Arrange
     customer_id = "AA-001"
@@ -48,7 +49,7 @@ def test_generate_pdf():
     postal = "AL"
     today = date.today()  # Get today's date
     statement_date = date(today.year, today.month, 1)
-    PDF_PATH = "sample-data/files"
+    PDF_PATH = "tests/test_files/"
 
     customer_data = generate_customer_data(
         customer_id=customer_id,

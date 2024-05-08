@@ -6,17 +6,17 @@ from datetime import date,datetime
 from dateutil.relativedelta import relativedelta
 
 from gen_sample_data.generate_data import (
+    Workload,
     generate_customer_data_async,
     load_us_population_data,
     generate_pdf_async,
-
 )
 from gen_sample_data.generate_files import delete_file_async,log_last_process_aio,append_log_aio
 from box_utils.box_client_ccg import ConfigCCG, get_ccg_user_client
 from box_utils.box_uploads import box_upload_file_async, box_upload_file
 
 # DATA_DEFINITION = "sample-data/2K Customers.csv"
-DATA_DEFINITION = "sample-data/us_pop_500.csv"
+DATA_DEFINITION = "sample-data/500 Customers.csv"
 # DATA_DEFINITION = "sample-data/20M Customers.csv"
 PDF_PATH = "sample-data/files/"
 LOG_PATH = f"sample-data/logs/"
@@ -47,7 +47,7 @@ async def create_file(worker_name:str,customer_id:str,state:str,postal:str,date:
 
 
 
-async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
+async def create_files(workload:list[Workload],worker_name:str="worker-0",recover_path:str=LOG_PATH, create_log:bool=False):
 
     # config = ConfigCCG()
     # client = get_ccg_user_client(config, config.ccg_user_id)
@@ -73,9 +73,9 @@ async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str
         date_offset = 0
 
     batch_start = time.perf_counter()
-    for state_index in range(state_offset,len(workload["State"])):
+    for state_index in range(state_offset,len(workload)):
         state_start = time.perf_counter()  
-        for customer_index in range(customer_offset,int(workload["Customers"][state_index])):
+        for customer_index in range(customer_offset,workload[state_index].customers_end):
 
             today = date.today()  # Get today's date
             statement_date = date(today.year, today.month, 1)
@@ -85,9 +85,9 @@ async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str
             for date_index in range(date_offset,50):  # Months
                 await create_file(
                     worker_name,
-                    f"{workload['Postal'][state_index]}-{customer_index+1:07}", 
-                    workload["State"][state_index], 
-                    workload["Postal"][state_index], 
+                    f"{workload[state_index].postal}-{customer_index+1:07}", 
+                    workload[state_index].state, 
+                    workload[state_index].postal, 
                     statement_date, 
                     random.randint(5, 27)
                 )
@@ -96,7 +96,7 @@ async def create_files(workload:dict,worker_name:str="worker-0",recover_path:str
                 statement_date = statement_date - relativedelta(months=1)
             date_offset = 0
         print(
-                f"State {workload["State"][state_index]} created in {time.perf_counter() - state_start:0.3f} seconds"
+                f"State {workload[state_index].state} created in {time.perf_counter() - state_start:0.3f} seconds"
             )
         customer_offset = 0
     

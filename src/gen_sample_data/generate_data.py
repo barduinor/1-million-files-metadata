@@ -4,29 +4,41 @@ from dateutil.relativedelta import relativedelta
 import random
 from reportlab.pdfgen import canvas
 import os
+from dataclasses import dataclass
+import csv
+
+@dataclass
+class Workload:
+    postal:str
+    state:str
+    population:int
+    population_percent:float
+    customers_start:int
+    customers_end:int
 
 
 def load_us_population_data(
     filename: str,
-) -> dict:
-    """
-    Loads a CSV file into a dictionary (manual approach).
+) -> list[Workload]:
 
-    Args:
-        filename: The path to the CSV file.
-
-    Returns:
-        A dictionary where keys are column names (from first row)
-        and values are lists of corresponding values.
-    """
+    data = []
     with open(filename, "r") as csv_file:
         reader = csv.reader(csv_file)
         headers = next(reader)  # Read the first row as headers
-        data = list(reader)
-        return {h: [row[i] for row in data] for i, h in enumerate(headers)}
+        
+        for row in reader:
+            data.append(Workload(
+                postal=row[0],
+                state=row[1],
+                population=int(row[2]),
+                population_percent=float(row[3]),
+                customers_end=int(row[4]),
+                customers_start=int(row[5])
+            ))
+    return data
 
 
-async def load_us_population_data_async(filename: str ) -> dict:
+async def load_us_population_data_async(filename: str ) -> list[Workload]:
     return load_us_population_data(filename)
 
 
