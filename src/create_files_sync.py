@@ -83,8 +83,9 @@ def create_files(
         date_offset = 0
 
     batch_start = time.perf_counter()
+    files_in_batch =0
     for state_index in range(state_offset,len(workload)):
-        
+        files_in_state = 0
         state_start = time.perf_counter()  
         for customer_index in range(workload[state_index].customers_start+customer_offset,workload[state_index].customers_end):
 
@@ -107,15 +108,19 @@ def create_files(
                     create_metadata,
                 )
                 log_last_process(recover_log_file, f"{state_index},{customer_index},{date_index}")
-
+                files_in_state += 1
+                files_in_batch += 1
                 statement_date = statement_date - relativedelta(months=1)
             date_offset = 0
+        elapsed_time = time.perf_counter() - state_start
+        files_per_second = files_in_state / elapsed_time
         print(
-                f"State {workload[state_index].state} created in {time.perf_counter() - state_start:0.3f} seconds"
+                f"{worker_name},file,{workload[state_index].state},{files_in_state},{elapsed_time:0.3f},{files_per_second:0.3f}"
             )
         customer_offset = 0
-    
-    print(f"Batch created in {time.perf_counter() - batch_start:0.3f} seconds")
+    elapsed_time = time.perf_counter() - batch_start
+    files_per_second = files_in_batch / elapsed_time
+    print(f"{worker_name},batch,ZZ,{files_in_batch},{elapsed_time:0.3f},{files_per_second:0.3f}")
 
 
 def main():
@@ -129,7 +134,7 @@ def main():
         # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
-    print(f"Creating files for {worker_name} using {DATA_DEFINITION}")
+    print(f"Starting {worker_name} using {DATA_DEFINITION}")
     create_files(workload,worker_name)
 
 

@@ -97,11 +97,20 @@ def main():
 
     DATA_DEFINITION = "sample-data/500 Customers.csv"
     # DATA_DEFINITION = "sample-data/2K Customers.csv"
+    # DATA_DEFINITION = "sample-data/1M Customers.csv"
     # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
-    split_workload_by_workers(workload)
-    write_execution_script(WORKERS, "execution_script.sh", "sample-data/workers_load/")
+
+    split_workload_by_workers(workload, WORKERS, "sample-data/workers_load_sync/")
+    write_execution_script(
+        WORKERS, "execution_script_sync.sh", "src/create_files_sync.py", "sample-data/workers_load_sync/"
+    )
+
+    # split_workload_by_workers(workload, WORKERS, "sample-data/workers_load_async/")
+    # write_execution_script(
+    #     WORKERS, "execution_script_async.sh", "src/create_files_async.py", "sample-data/workers_load_async/"
+    # )
 
 
 if __name__ == "__main__":

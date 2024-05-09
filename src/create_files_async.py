@@ -1,6 +1,7 @@
 import asyncio
 import random
 import os
+import sys
 import time
 from datetime import date,datetime
 from dateutil.relativedelta import relativedelta
@@ -109,21 +110,27 @@ async def create_files(
                 statement_date = statement_date - relativedelta(months=1)
             date_offset = 0
         print(
-                f"State {workload[state_index].state} created in {time.perf_counter() - state_start:0.3f} seconds"
+                f"{worker_name}: State {workload[state_index].state} created in {time.perf_counter() - state_start:0.3f} seconds"
             )
         customer_offset = 0
     
-    print(f"Batch created in {time.perf_counter() - batch_start:0.3f} seconds")
+    print(f"{worker_name}: Batch created in {time.perf_counter() - batch_start:0.3f} seconds")
 
 
 async def main():
 
-    DATA_DEFINITION = "sample-data/500 Customers.csv"
-    # DATA_DEFINITION = "sample-data/2K Customers.csv"
-    # DATA_DEFINITION = "sample-data/20M Customers.csv"
+    if len(sys.argv) > 1:
+        DATA_DEFINITION = sys.argv[1]
+        worker_name = sys.argv[2]
+    else:
+        DATA_DEFINITION = "sample-data/500 Customers.csv"
+        # DATA_DEFINITION = "sample-data/2K Customers.csv"
+        # DATA_DEFINITION = "sample-data/20M Customers.csv"
+        # DATA_DEFINITION = "sample-data/workers_load_async/worker_1.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
-    await create_files(workload)
+    print(f"Starting {worker_name} using {DATA_DEFINITION}")
+    await create_files(workload,worker_name)    
 
 
 if __name__ == "__main__":

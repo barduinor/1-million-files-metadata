@@ -25,10 +25,10 @@ def write_worker_files(workers_load: list[list[Workload]], folder_path: str) -> 
             for workload in worker:
                 writer.writerow([workload.postal, workload.state, workload.population, workload.population_percent, workload.customers_end, workload.customers_start])
 
-def write_execution_script(workers: int, script_path: str,worker_path:str) -> None:
-    with open(script_path, "w") as file:
+def write_execution_script(workers: int, shell_script_path: str,python_script_path:str,worker_path:str) -> None:
+    with open(shell_script_path, "w") as file:
         for i in range(workers):
-            file.write(f"python src/create_files_sync.py {worker_path}worker_{i}.csv worker_{i} & \n")
+            file.write(f"python {python_script_path} {worker_path}worker_{i}.csv worker_{i} & \n")
 
 def load_us_population_data(
     filename: str,
