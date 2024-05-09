@@ -1,6 +1,6 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-AK,Alaska,733391,0.0022,0,1
-AL,Alabama,5024279,0.0152,0,8
-AR,Arkansas,3011524,0.0091,0,5
-AZ,Arizona,7151502,0.0216,0,11
-CA,California,39538223,0.1193,0,38
+Postal,State,Population,Population Percent,Customer End,Customers Start
+AK,Alaska,733391,0.0022,1,0
+AL,Alabama,5024279,0.0152,8,0
+AR,Arkansas,3011524,0.0091,5,0
+AZ,Arizona,7151502,0.0216,11,0
+CA,California,39538223,0.1193,38,0

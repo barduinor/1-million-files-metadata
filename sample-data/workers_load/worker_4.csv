@@ -1,12 +1,12 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-MO,Missouri,6154913,0.0186,0,9
-MS,Mississippi,2961279,0.0089,0,4
-MT,Montana,1084225,0.0033,0,2
-NC,North Carolina,10439388,0.0315,0,16
-ND,North Dakota,779094,0.0024,0,1
-NE,Nebraska,1961504,0.0059,0,3
-NH,New Hampshire,1377529,0.0042,0,2
-NJ,New Jersey,9288994,0.028,0,14
-NM,New Mexico,2117522,0.0064,0,3
-NV,Nevada,3104614,0.0094,0,5
-NY,New York,20201249,0.0609,0,4
+Postal,State,Population,Population Percent,Customer End,Customers Start
+MO,Missouri,6154913,0.0186,9,0
+MS,Mississippi,2961279,0.0089,4,0
+MT,Montana,1084225,0.0033,2,0
+NC,North Carolina,10439388,0.0315,16,0
+ND,North Dakota,779094,0.0024,1,0
+NE,Nebraska,1961504,0.0059,3,0
+NH,New Hampshire,1377529,0.0042,2,0
+NJ,New Jersey,9288994,0.028,14,0
+NM,New Mexico,2117522,0.0064,3,0
+NV,Nevada,3104614,0.0094,5,0
+NY,New York,20201249,0.0609,4,0

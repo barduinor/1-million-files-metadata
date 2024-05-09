@@ -101,7 +101,7 @@ def main():
 
     workload = load_us_population_data(DATA_DEFINITION)
     split_workload_by_workers(workload)
-    write_execution_script(WORKERS, "execution_script.sh")
+    write_execution_script(WORKERS, "execution_script.sh", "sample-data/workers_load/")
 
 
 if __name__ == "__main__":

@@ -122,13 +122,15 @@ def main():
     
     if len(sys.argv) > 1:
         DATA_DEFINITION = sys.argv[1]
+        worker_name = sys.argv[2]
     else:
         DATA_DEFINITION = "sample-data/500 Customers.csv"
         # DATA_DEFINITION = "sample-data/2K Customers.csv"
         # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)
-    create_files(workload)
+    print(f"Creating files for {worker_name} using {DATA_DEFINITION}")
+    create_files(workload,worker_name)
 
 
 if __name__ == "__main__":

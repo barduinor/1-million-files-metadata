@@ -1,9 +1,9 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-FL,Florida,21538187,0.065,25,32
-GA,Georgia,10711908,0.0323,0,16
-HI,Hawaii,1455271,0.0044,0,2
-IA,Iowa,3190369,0.0096,0,5
-ID,Idaho,1839106,0.0055,0,3
-IL,Illinois,12812508,0.0387,0,19
-IN,Indiana,6785528,0.0205,0,10
-KS,Kansas,2937880,0.0089,0,1
+Postal,State,Population,Population Percent,Customer End,Customers Start
+FL,Florida,21538187,0.065,32,25
+GA,Georgia,10711908,0.0323,16,0
+HI,Hawaii,1455271,0.0044,2,0
+IA,Iowa,3190369,0.0096,5,0
+ID,Idaho,1839106,0.0055,3,0
+IL,Illinois,12812508,0.0387,19,0
+IN,Indiana,6785528,0.0205,10,0
+KS,Kansas,2937880,0.0089,1,0

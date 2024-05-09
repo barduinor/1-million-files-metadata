@@ -1,7 +1,7 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-PA,Pennsylvania,13002700,0.0392,7,20
-RI,Rhode Island,1097379,0.0033,0,2
-SC,South Carolina,5118425,0.0154,0,8
-SD,South Dakota,886667,0.0027,0,1
-TN,Tennessee,6910840,0.0209,0,10
-TX,Texas,29145505,0.0879,0,29
+Postal,State,Population,Population Percent,Customer End,Customers Start
+PA,Pennsylvania,13002700,0.0392,20,7
+RI,Rhode Island,1097379,0.0033,2,0
+SC,South Carolina,5118425,0.0154,8,0
+SD,South Dakota,886667,0.0027,1,0
+TN,Tennessee,6910840,0.0209,10,0
+TX,Texas,29145505,0.0879,29,0

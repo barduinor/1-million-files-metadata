@@ -1,7 +1,7 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-CA,California,39538223,0.1193,38,60
-CO,Colorado,5773714,0.0174,0,9
-CT,Connecticut,3605944,0.0109,0,5
-DC,District of Columbia,689545,0.0021,0,1
-DE,Delaware,989948,0.003,0,1
-FL,Florida,21538187,0.065,0,25
+Postal,State,Population,Population Percent,Customer End,Customers Start
+CA,California,39538223,0.1193,60,38
+CO,Colorado,5773714,0.0174,9,0
+CT,Connecticut,3605944,0.0109,5,0
+DC,District of Columbia,689545,0.0021,1,0
+DE,Delaware,989948,0.003,1,0
+FL,Florida,21538187,0.065,25,0

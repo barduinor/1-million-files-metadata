@@ -1,9 +1,9 @@
-Postal,State,Population,Population Percent,Customers Start,Customers End
-KS,Kansas,2937880,0.0089,1,4
-KY,Kentucky,4505836,0.0136,0,7
-LA,Louisiana,4657757,0.0141,0,7
-MA,Massachusetts,7029917,0.0212,0,11
-MD,Maryland,6177224,0.0186,0,9
-ME,Maine,1362359,0.0041,0,2
-MI,Michigan,10077331,0.0304,0,15
-MN,Minnesota,5706494,0.0172,0,9
+Postal,State,Population,Population Percent,Customer End,Customers Start
+KS,Kansas,2937880,0.0089,4,1
+KY,Kentucky,4505836,0.0136,7,0
+LA,Louisiana,4657757,0.0141,7,0
+MA,Massachusetts,7029917,0.0212,11,0
+MD,Maryland,6177224,0.0186,9,0
+ME,Maine,1362359,0.0041,2,0
+MI,Michigan,10077331,0.0304,15,0
+MN,Minnesota,5706494,0.0172,9,0

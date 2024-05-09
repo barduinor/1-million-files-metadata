@@ -21,14 +21,14 @@ def write_worker_files(workers_load: list[list[Workload]], folder_path: str) -> 
         file_name = f"{folder_path}/worker_{i}.csv"
         with open(file_name, "w") as file:
             writer = csv.writer(file)
-            writer.writerow(["Postal", "State", "Population", "Population Percent", "Customers Start", "Customers End"])
+            writer.writerow(["Postal","State", "Population","Population Percent","Customer End", "Customers Start"])
             for workload in worker:
-                writer.writerow([workload.postal, workload.state, workload.population, workload.population_percent, workload.customers_start, workload.customers_end])
+                writer.writerow([workload.postal, workload.state, workload.population, workload.population_percent, workload.customers_end, workload.customers_start])
 
-def write_execution_script(workers: int, script_path: str) -> None:
+def write_execution_script(workers: int, script_path: str,worker_path:str) -> None:
     with open(script_path, "w") as file:
         for i in range(workers):
-            file.write(f"python create_files_sync.py worker_{i}.csv\n")
+            file.write(f"python src/create_files_sync.py {worker_path}worker_{i}.csv worker_{i} & \n")
 
 def load_us_population_data(
     filename: str,
