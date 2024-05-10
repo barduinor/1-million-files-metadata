@@ -107,11 +107,6 @@ def main():
         WORKERS, "execution_script_sync.sh", "src/create_files_sync.py", "sample-data/workers_load_sync/"
     )
 
-    # split_workload_by_workers(workload, WORKERS, "sample-data/workers_load_async/")
-    # write_execution_script(
-    #     WORKERS, "execution_script_async.sh", "src/create_files_async.py", "sample-data/workers_load_async/"
-    # )
-
 
 if __name__ == "__main__":
     main()
