@@ -97,7 +97,7 @@ def main():
 
     DATA_DEFINITION = "sample-data/500 Customers.csv"
     # DATA_DEFINITION = "sample-data/2K Customers.csv"
-    # DATA_DEFINITION = "sample-data/1M Customers.csv"
+    # DATA_DEFINITION = "sample-data/20k Customers.csv"
     # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
     workload = load_us_population_data(DATA_DEFINITION)

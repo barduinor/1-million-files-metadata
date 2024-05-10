@@ -133,6 +133,8 @@ def main():
         # DATA_DEFINITION = "sample-data/2K Customers.csv"
         # DATA_DEFINITION = "sample-data/20M Customers.csv"
 
+        worker_name = "worker-0"
+
     workload = load_us_population_data(DATA_DEFINITION)
     print(f"Starting {worker_name} using {DATA_DEFINITION}")
     create_files(workload,worker_name)
